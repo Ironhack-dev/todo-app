@@ -3,7 +3,8 @@ import axios from 'axios';
 class AuthService {
   constructor() {
     this.instance = axios.create({
-      baseURL: `${process.env.REACT_APP_API_URL}/auth`    
+      baseURL: `${process.env.REACT_APP_API_URL}/auth`,
+      withCredentials: true    
     })
   }
 
@@ -19,7 +20,7 @@ class AuthService {
     .catch(error => console.error(error))
   }
 
-  loggedInUser = (user) => {
+  loggedInUser = () => {
     return this.instance.get('/loggedin')
     .then(res => Promise.resolve(res.data))
     .catch(error => console.error(error))

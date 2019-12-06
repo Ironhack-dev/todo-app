@@ -9,14 +9,13 @@ const logger       = require('morgan');
 const path         = require('path');
 
 const session    = require("express-session");
-const MongoStore = require('connect-mongo')(session);
-const flash      = require("connect-flash");
-
+const MongoStore = require("connect-mongo")(session);
 const passport = require('passport')
 const cors = require('cors');
 
-require('./configs/passport.config');
+
 require('./configs/db.config');
+require('./configs/passport.config');
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -43,31 +42,27 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Express View engine setup
-
-app.use(require('node-sass-middleware')({
-  src:  path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  sourceMap: true
-}));
-      
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
-
-
 // Enable authentication using session + passport
 app.use(session({
   secret: 'Todo-app',
-  resave: true,
+  resave: false,
   saveUninitialized: true,
-  store: new MongoStore( { mongooseConnection: mongoose.connection })
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 1000
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
 }))
-app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session())
     
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 const index = require('./routes');
 app.use('/', index);

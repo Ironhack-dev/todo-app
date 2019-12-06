@@ -50,11 +50,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Switch>
+          {user && <Switch>
             <Route exact path="/login" render={(match) => <Login {...match} setUser={this.setUser} />} />  
             <Route exact path="/signup" render={(match) => <SignUp {...match} setUser={this.setUser} />} />
             <PrivateRoute exact path="/" user={user} component={TodoList} />
-          </Switch>
+          </Switch> }
+          {!user && <Switch>
+            <Route exact path="/login" render={(match) => <Login {...match} setUser={this.setUser} />} />  
+            <Route exact path="/signup" render={(match) => <SignUp {...match} setUser={this.setUser} />} />
+            <PrivateRoute exact path="/" user={user} component={TodoList} />
+          </Switch> }
         </header>
       </div>
     );

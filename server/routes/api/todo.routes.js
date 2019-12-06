@@ -4,10 +4,10 @@ const Todo = require('../../models/Todo')
 router.get('/', (req, res, next) => {
   Todo.find()
   .then(todos => {
-    return res.status(200).json(todos)
+    res.status(200).json(todos)
   })
   .catch(error => {
-    return res.status(500).json({message: 'Something went wrong'})
+    res.status(500).json({message: 'Something went wrong'})
   })
 })
 
@@ -21,10 +21,10 @@ router.post('/new', (req, res, next) => {
 
   newTodo.save()
   .then(todo => {
-    return res.status(200).json(todo)
+    res.status(200).json(todo)
   })
   .catch(error => {
-    return res.status(500).json({message: 'Error saving new Todo'})
+    res.status(500).json({message: 'Error saving new Todo'})
   })
 })
 
@@ -32,7 +32,7 @@ router.get('/:id', (req, res, next) => {
   const { id } = req.params;
   Todo.findById(id)
   .then(todo => {
-    return res.status(200).json(todo)
+    res.status(200).json(todo)
   })
   .catch(error => res.status(500).json({ message: 'Todo not found'}))
 })
@@ -41,10 +41,10 @@ router.put('/:id', (req, res, next) => {
   const { id } = req.params;
   Todo.findByIdAndUpdate(id, req.body)
   .then(() => {
-    return res.status(200).json({ message: `Todo ${id} updated` })
+    res.status(200).json({ message: `Todo ${id} updated` })
   })
   .catch(error => {
-    return res.status(500).json({ message:'Something went wrong' })
+    res.status(500).json({ message:'Something went wrong' })
   })
 })
 
