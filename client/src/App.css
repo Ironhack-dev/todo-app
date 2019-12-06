@@ -24,3 +24,8 @@
   width: 80%;
   margin: 0 auto;
 }
+
+img {
+  object-fit: cover;
+  width: 200px;
+}
