@@ -16,21 +16,7 @@ class App extends React.Component {
   }
 
   state = {
-    todos: [],
     user: null
-  }
-
-  updateTodos = () => {
-    this.todoService.fetchTodos()
-      .then(
-        (todos) => {
-          this.setState({ ...this.state, todos })
-        },
-        (error) => {
-          const { message } = error;
-          console.error(message)
-        }
-      )
   }
 
   setUser = (user) => {
@@ -55,30 +41,20 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.todoService.fetchTodos()
-      .then(
-        (todos) => {
-          this.setState({ ...this.state, todos })
-        },
-        (error) => {
-          const { message } = error;
-          console.error(message)
-        }
-      )
+    this.fetchUser()
   }
 
   render() {
     this.fetchUser()
-    const { todos, user } = this.state;
+    const { user } = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <Switch>
             <Route exact path="/login" render={(match) => <Login {...match} setUser={this.setUser} />} />  
             <Route exact path="/signup" render={(match) => <SignUp {...match} setUser={this.setUser} />} />
-            <PrivateRoute exact path="/" user={user} component={() => <TodoList todos={todos} updateTodos={this.updateTodos} loggedInUser={user}/>} />
+            <PrivateRoute exact path="/" user={user} component={TodoList} />
           </Switch>
-
         </header>
       </div>
     );

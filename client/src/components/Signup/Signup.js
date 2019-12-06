@@ -51,7 +51,7 @@ export default class SignUp extends Component {
     const { username, password, picture } = this.state;
     return (
       <div>
-        <PageTitle>SignUp</PageTitle>
+        <PageTitle color="black">SignUp</PageTitle>
         <form onSubmit={this.handleSignUp}>
           <label htmlFor="username">Username: </label>
           <input type="text" name="username" value={username} required onChange={this.handleChange}/>
