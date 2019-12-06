@@ -4,7 +4,7 @@ const Todo = require('../../models/Todo')
 router.get('/', (req, res, next) => {
   Todo.find()
   .then(todos => {
-    return res.status(200).json({todos})
+    return res.status(200).json(todos)
   })
   .catch(error => {
     return res.status(500).json({message: 'Something went wrong'})
@@ -21,7 +21,7 @@ router.post('/new', (req, res, next) => {
 
   newTodo.save()
   .then(todo => {
-    return res.status(200).json({todo})
+    return res.status(200).json(todo)
   })
   .catch(error => {
     return res.status(500).json({message: 'Error saving new Todo'})
